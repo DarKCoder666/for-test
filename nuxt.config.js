@@ -43,6 +43,7 @@ export default {
     // Doc: https://bootstrap-vue.js.org/docs/
     'bootstrap-vue/nuxt',
     '@nuxtjs/style-resources',
+    '@nuxtjs/axios',
     [
       'nuxt-fontawesome', {
         imports: [
@@ -58,6 +59,12 @@ export default {
       }
     ]
   ],
+
+  axios: {
+    // See https://github.com/nuxt-community/axios-module#options
+    baseURL: 'https://api.dev.olalaland.store/v2',
+    'Access-Control-Allow-Origin': '*',
+  },
 
   styleResources: {
     scss: [

@@ -1,22 +1,23 @@
 <template scoped>
   <div class="item">
-    <nuxt-link to="/store">
+    <nuxt-link v-bind:to="`/store/${data.storage.shop.id}`">
       <div class="item-header">
         <div class="item-logo">
-          <img src="~/assets/images/itemLogo.png" alt>
+          <img v-bind:src="data.storage.shop.icon" alt>
         </div>
         <div class="item-title">
-          <p>Adidas Men Store</p>
-          <span>Боконбаева 163</span>
+          <p>{{data.storage.shop.name}}</p>
+          <span>{{data.storage.shop.address}}</span>
         </div>
       </div>
     </nuxt-link>
-    <nuxt-link to="/item">
+
+    <nuxt-link v-bind:to="`/item/${data.id}`">
       <div class="item-body">
-        <img src="~/assets/images/itemImg.png" class="item-bg" alt>
+        <img v-bind:src="data.images[0]" class="item-bg" alt>
         <div class="item-info">
-          <p>ADIDAS SPORTSWEAR</p>
-          <span>4300 c</span>
+          <p>{{data.title}}</p>
+          <span>{{data.selling_price}}</span>
         </div>
       </div>
     </nuxt-link>
@@ -24,7 +25,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ['data']
+};
 </script>
 
 <style lang="scss" scoped>

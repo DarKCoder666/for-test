@@ -1,23 +1,19 @@
 <template scoped>
-  <div class="item-info">
-    <h1 class="item-title">Adidas Sportswear</h1>
+  <div v-if="data && data.category" class="item-info">
+    <h1 class="item-title">{{data.title}}</h1>
     <b-row class="item-section">
       <b-col>
         <p>СЕБЕСТОИМОСТЬ</p>
-        <span>2000 c</span>
-      </b-col>
-      <b-col>
-        <p>СЕБЕСТОИМОСТЬ</p>
-        <span>4300 c</span>
+        <span>{{data.selling_price}} c</span>
       </b-col>
     </b-row>
 
     <b-row class="item-section justify-content-between" row>
-      <b-col>
+      <b-col class="item-section-cat">
         <p>Категория</p>
       </b-col>
       <b-col>
-        <span>Одежда</span>
+        <span>{{data.category.name}}</span>
       </b-col>
     </b-row>
 
@@ -34,14 +30,16 @@
     <b-row class="item-section">
       <b-col>
         <p>ОПИСАНИЕ</p>
-        <span>Футболка из 100% хлопка с круглым вырезом и принтом из новой коллекции 2019 года весна-лето</span>
+        <span>{{data.description}}</span>
       </b-col>
     </b-row>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["data"]
+};
 </script>
 
 <style lang="scss" scoped>
@@ -67,6 +65,14 @@ export default {};
 
   &:last-child {
     border-bottom: none;
+  }
+
+  &-cat {
+    display: flex;
+    align-items: center;
+    p {
+      margin: 0;
+    }
   }
 }
 
