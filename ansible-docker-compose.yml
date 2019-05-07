@@ -1,0 +1,36 @@
+---
+- name: Configure ola server - frontend
+  hosts: all
+  remote_user: ci
+  become: no
+  gather_facts: False
+
+  tasks:
+    - name: Create a network for load-balancer container
+      docker_network:
+        name: lb
+    - name: Ensures ~/{{ DOCKER_COMPOSE_PROJECT }}-frontend/ dir exists
+      file: path=~/{{ DOCKER_COMPOSE_PROJECT }}-frontend/ state=directory
+    - name: copy docker-compose.server.yml to remote server
+      copy:
+        src: "{{ playbook_dir }}/docker-compose.server.yml"
+        dest: "~/{{ DOCKER_COMPOSE_PROJECT }}-frontend/docker-compose.yml"
+    - name: docker login
+      become: no
+      docker_login:
+        username: gitlab-ci-token
+        password: "{{ CI_JOB_TOKEN }}"
+        registry: "{{ CI_REGISTRY }}"
+    - name: run the service defined in docker-compose.server.yml
+      docker_service:
+        project_src: "~/{{ DOCKER_COMPOSE_PROJECT }}-frontend"
+        project_name: "{{ DOCKER_COMPOSE_PROJECT }}"
+      environment:
+        DOCKER_COMPOSE_PROJECT: "{{ DOCKER_COMPOSE_PROJECT }}"
+        CI_REGISTRY_IMAGE: "{{ CI_REGISTRY_IMAGE }}"
+        DOCKERIMAGE_TAG: "{{ DOCKERIMAGE_TAG }}"
+        API_URL: "{{ API_URL }}"
+        FRONTEND_HOSTNAME: "{{ FRONTEND_HOSTNAME }}"
+    - name: restart traefik container
+      command: /usr/bin/docker restart traefik 
+      ignore_errors: yes
