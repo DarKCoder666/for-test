@@ -7,6 +7,7 @@ RUN npm ci
 COPY . .
 ARG API_URL='http://PLACE_HOLDER_f8e7873ba7c2124fc72101d2216177c0'
 RUN npm run build
+RUN npm run generate
 
 FROM nginx:mainline-alpine
 COPY --from=frontend-builder /home/frontend-builder/dist /usr/share/nginx/html
