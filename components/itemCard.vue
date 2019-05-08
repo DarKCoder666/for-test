@@ -1,23 +1,30 @@
 <template scoped>
   <div class="item">
-    <nuxt-link v-bind:to="`/store/${data.storage.shop.id}`">
+    <nuxt-link v-bind:to="`/store/${shopID}`">
       <div class="item-header">
         <div class="item-logo">
-          <img v-bind:src="data.storage.shop.icon" alt>
+          <img
+            v-if="shopLogo"
+            v-bind:src="imagesPrefixUrl + shopLogo"
+          >
         </div>
         <div class="item-title">
-          <p>{{data.storage.shop.name}}</p>
-          <span>{{data.storage.shop.address}}</span>
+          <p>{{shopName}}</p>
+          <span>{{shopAddress}}</span>
         </div>
       </div>
     </nuxt-link>
 
-    <nuxt-link v-bind:to="`/item/${data.id}`">
+    <nuxt-link v-bind:to="`/item/${shopID}/${info.id}`">
       <div class="item-body">
-        <img v-bind:src="data.images[0]" class="item-bg" alt>
+        <img
+          v-if="info.barcode.images[0]"
+          v-bind:src="imagesPrefixUrl + info.barcode.images[0]"
+          class="item-bg"
+        >
         <div class="item-info">
-          <p>{{data.title}}</p>
-          <span>{{data.selling_price}}</span>
+          <p>{{info.barcode.title}}</p>
+          <span>{{info.barcode.selling_price}}</span>
         </div>
       </div>
     </nuxt-link>
@@ -25,8 +32,45 @@
 </template>
 
 <script>
+import { links } from "../settings/links";
+
 export default {
-  props: ['data']
+  props: ["info"],
+  data: function() {
+    return {
+      imagesPrefixUrl: links.imagesPrefixUrl
+    };
+  },
+  computed: {
+    shopLogo() {
+      if (this.info.barcode.storage && this.info.barcode.storage.shop) {
+        return this.info.barcode.storage.shop.icon;
+      }
+
+      return this.$store.state.items.currentShopInfo.icon;
+    },
+    shopID() {
+      if (this.info.barcode.storage && this.info.barcode.storage.shop) {
+        return this.info.barcode.storage.shop.id;
+      }
+
+      return this.$store.state.items.currentShopInfo.id;
+    },
+    shopName() {
+      if (this.info.barcode.storage && this.info.barcode.storage.shop) {
+        return this.info.barcode.storage.shop.name;
+      }
+
+      return this.$store.state.items.currentShopInfo.name;
+    },
+    shopAddress() {
+      if (this.info.barcode.storage && this.info.barcode.storage.shop) {
+        return this.info.barcode.storage.shop.address;
+      }
+
+      return this.$store.state.items.currentShopInfo.address;
+    }
+  }
 };
 </script>
 
