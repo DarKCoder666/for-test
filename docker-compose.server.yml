@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+  frontnend:
+    image: $CI_REGISTRY_IMAGE:$DOCKERIMAGE_TAG
+    restart: always
+    environment:
+    - DEBUG=$DEBUG
+    - API_URL=$API_URL
+    labels:
+    - traefik.backend=$DOCKER_COMPOSE_PROJECT-frontend
+    - traefik.docker.network=lb
+    - traefik.acme.email="admin@olalaland.store"
+    - traefik.frontend.rule=Host:$FRONTEND_HOSTNAME
+    - traefik.port=80
+    - traefik.frontend.entryPoints=http,https
+    - traefik.enable=true
+    networks:
+      lb:
+
+networks:
+  lb:
+    external: true
