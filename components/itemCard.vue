@@ -2,7 +2,7 @@
   <div class="item">
     <nuxt-link v-bind:to="`/store/${shopID}`">
       <div class="item-header">
-        <div class="item-logo">
+        <div class="item-logo" v-bind:class="{'default-logo': !shopLogo}">
           <img
             v-if="shopLogo"
             v-bind:src="imagesPrefixUrl + shopLogo"
@@ -77,6 +77,12 @@ export default {
 <style lang="scss" scoped>
 .item {
   margin-top: 26px;
+}
+
+.default-logo {
+  width: 41px;
+  height: 41px;
+  background: #999;
 }
 
 .item-header {
