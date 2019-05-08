@@ -1,10 +1,10 @@
 <template scoped>
-  <div v-if="data && data.category" class="item-info">
-    <h1 class="item-title">{{data.title}}</h1>
+  <div v-if="data && data.barcode" class="item-info">
+    <h1 class="item-title">{{data.barcode.title}}</h1>
     <b-row class="item-section">
       <b-col>
         <p>СЕБЕСТОИМОСТЬ</p>
-        <span>{{data.selling_price}} c</span>
+        <span>{{data.barcode.selling_price}} c</span>
       </b-col>
     </b-row>
 
@@ -13,7 +13,7 @@
         <p>Категория</p>
       </b-col>
       <b-col>
-        <span>{{data.category.name}}</span>
+        <span>{{data.barcode.category.name}}</span>
       </b-col>
     </b-row>
 
@@ -30,7 +30,7 @@
     <b-row class="item-section">
       <b-col>
         <p>ОПИСАНИЕ</p>
-        <span>{{data.description}}</span>
+        <span>{{data.barcode.description}}</span>
       </b-col>
     </b-row>
   </div>

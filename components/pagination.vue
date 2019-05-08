@@ -2,29 +2,34 @@
   <b-pagination
     v-on:change="onPageChange"
     v-model="thisPage"
-    :total-rows="rows"
-    :per-page="perPage"
+    :total-rows="pRows"
+    v-bind:per-page="perPage"
   ></b-pagination>
 </template>
 
 <script>
 export default {
-  props: ['currentPage', 'perPage', 'rows'],
-  
+  props: ["currentPage", "perPage", "rows"],
+
   data() {
     return {
       thisPage: this.currentPage
+    };
+  },
+
+  computed: {
+    pRows: function() {
+      return this.rows;
     }
   },
 
   methods: {
     onPageChange(newPage) {
-      this.$store.dispatch('items/changePage', { newPage })
+      this.$store.dispatch("items/changePage", { newPage });
     }
   }
-}
+};
 </script>
 
 <style>
-
 </style>

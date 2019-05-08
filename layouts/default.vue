@@ -4,6 +4,12 @@
       <b-container>
         <b-row>
           <b-col class="logo">
+            <font-awesome-icon
+              v-if="showArrow"
+              @click="goBack"
+              class="arrow-left"
+              :icon="['fas', 'arrow-left']"
+            />
             <nuxt-link to="/">OLA</nuxt-link>
           </b-col>
           <b-col class="search-block-wrap">
@@ -12,7 +18,12 @@
                 <font-awesome-icon :icon="['fas', 'search']"/>
               </b-input-group-prepend>
               <b-input-group-prepend class="search-input-wrap">
-                <b-form-input class="search-input" placeholder="Найти товар"></b-form-input>
+                <b-form-input
+                  v-model="searchLine"
+                  @input="onSearchLineChange"
+                  class="search-input"
+                  placeholder="Найти товар"
+                ></b-form-input>
               </b-input-group-prepend>
             </b-input-group>
           </b-col>
@@ -21,25 +32,50 @@
     </div>
 
     <nuxt/>
-
   </div>
 </template>
 
 <script>
 export default {
   data: () => ({
-    mobile_search_state: false
+    mobile_search_state: false,
+    searchLine: ""
   }),
+
+  computed: {
+    showArrow() {
+      return this.$route.path === "/" ? false : true;
+    }
+  },
 
   methods: {
     toggleSearchState() {
       this.mobile_search_state = !this.mobile_search_state;
+    },
+    onSearchLineChange(newVal) {
+      this.$router.push({
+        path: "/"
+      });
+      this.$store.dispatch("items/receiveItems", { searchLine: newVal });
+    },
+    goBack() {
+      this.$router.back();
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.arrow-left {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  margin-right: 12px;
+  display: none;
+  @media screen and (max-width: $lg) {
+    display: block;
+  }
+}
+
 .header {
   padding: 24px 0;
   background-color: #918ffe !important;

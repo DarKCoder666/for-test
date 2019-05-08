@@ -2,7 +2,7 @@
   <b-container class="item">
     <b-row class="item-inner-wrap">
       <b-col class="images-wrap">
-        <item-images v-bind:images="data.images"></item-images>
+        <item-images v-if="data.barcode && data.barcode.images" v-bind:images="data.barcode.images"></item-images>
       </b-col>
       <b-col class="info-wrap">
         <item-info v-bind:data="data"></item-info>
@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import ItemImages from "../../components/item/itemImages";
-import ItemInfo from "../../components/item/itemInfo";
+import ItemImages from "../../../components/item/itemImages";
+import ItemInfo from "../../../components/item/itemInfo";
 
 export default {
   components: {
@@ -23,14 +23,16 @@ export default {
 
   computed: {
     data: function() {
-      return this.$store.state.items.currentItem
+      return this.$store.state.items.currentItem;
     }
   },
 
   beforeCreate() {
-    this.$store.dispatch('items/receiveItem', { itemID: this.$route.params.id })
+    this.$store.dispatch("items/receiveItem", {
+      itemID: this.$route.params.id,
+      shopID: this.$route.params.shopID
+    });
   }
-
 };
 </script>
 
@@ -40,13 +42,13 @@ export default {
 }
 
 .item-inner-wrap {
-
   @media screen and (max-width: $sm) {
     flex-direction: column;
   }
 }
 
 .images-wrap {
+  align-self: flex-start;
   max-width: 45%;
   margin-right: 14px;
 
@@ -56,5 +58,4 @@ export default {
     margin-bottom: 24px;
   }
 }
-
 </style>

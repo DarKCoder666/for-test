@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col v-for="item in items" v-bind:key="item.id" cols="12" xs="12" sm="6" lg="4">
-        <item-card v-bind:data="item"></item-card>
+        <item-card v-bind:info="item"></item-card>
       </b-col>
     </b-row>
 
@@ -25,16 +25,13 @@ export default {
 
   computed: {
     currentPage: function() {
-      return this.$store.state.items.currentPage;
+      return this.$store.state.items.currentPage + 1;
     },
     perPage: function() {
       return this.$store.state.items.itemsPerPage;
     },
     rows: function() {
-      return Math.ceil(
-        this.$store.state.items.totalItems /
-          this.$store.state.items.itemsPerPage
-      );
+      return this.$store.state.items.totalItems;
     },
     items() {
       return this.$store.state.items.currentItems || [];
