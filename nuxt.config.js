@@ -63,7 +63,7 @@ export default {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
     // baseURL: 'https://api.dev.olalaland.store/v2',
-    baseURL: process.env.API_URL || 'https://api.dev.olalaland.store/v2',
+    baseURL: process.env.API_URL || 'https://api.test.olalaland.store/v2',
     'Access-Control-Allow-Origin': '*',
   },
 
