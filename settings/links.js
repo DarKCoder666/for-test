@@ -1,3 +1,3 @@
 export const links = {
-  imagesPrefixUrl: 'https://api.test.olalaland.store/'
+  imagesPrefixUrl: 'https://api.dev.olalaland.store/'
 }
