@@ -4,7 +4,7 @@
       <b-container>
         <b-row class="header-inner-wrap">
           <div class="logo tempLogo">
-            <img v-bind:src="imagesPrefixUrl + shopInfo.icon" alt>
+            <img v-if="shopInfo.icon" v-bind:src="imagesPrefixUrl + shopInfo.icon" alt>
           </div>
 
           <div class="info">
@@ -16,7 +16,7 @@
       </b-container>
     </div>
 
-    <categories-filter></categories-filter>
+    <!-- <categories-filter></categories-filter> -->
 
     <items-list></items-list>
   </div>
@@ -80,10 +80,12 @@ export default {
 
 .logo {
   margin-right: 15px;
+  width: 100px;
+  height: 100px;
 
   img {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
 }

@@ -1,0 +1,84 @@
+image: docker:stable
+
+stages:
+  - build
+  - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  ANSIBLE_HOST_KEY_CHECKING: "False"
+
+build_docker_image:
+  services:
+    - docker:dind
+  stage: build
+  before_script:
+    - export DOCKERIMAGE_TAG=$CI_COMMIT_REF_SLUG-$(date +%Y%m%d-%H%M%S)-${CI_COMMIT_SHA:0:8}
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - echo "export DOCKERIMAGE_TAG=$(echo $DOCKERIMAGE_TAG)" > variables
+  script:
+    - docker build
+      --tag $CI_REGISTRY_IMAGE:$DOCKERIMAGE_TAG
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
+    - docker push $CI_REGISTRY_IMAGE:$DOCKERIMAGE_TAG
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  artifacts:
+    paths:
+      - variables
+  only:
+    - dev
+    - master
+
+deploy_docker_container_to_dev_server:
+  image: p1gmale0n/ansible:2.5-alpine3.8
+  stage: deploy
+  before_script:
+    # get DOCKERIMAGE_TAG variable value from build stage
+    - source variables
+    # dump ssh-key from GitLab CI Settings
+    - echo "${DEV_SERVER_SSH_KEY_CI}" | tr -d '\r' > /tmp/ssh_key_ci.pem
+    - chmod 600 /tmp/ssh_key_ci.pem
+  script:
+    # run ansible playbook - run backend services
+    - ansible-playbook -i ${DEV_SERVER_HOSTS}
+      --private-key /tmp/ssh_key_ci.pem
+      --extra-vars "
+      DOCKER_COMPOSE_PROJECT=ola
+      CI_JOB_TOKEN=$CI_JOB_TOKEN
+      CI_REGISTRY=$CI_REGISTRY
+      CI_REGISTRY_IMAGE=$CI_REGISTRY_IMAGE
+      DOCKERIMAGE_TAG=$DOCKERIMAGE_TAG
+      API_URL=$DEV_API_URL
+      FRONTEND_HOSTNAME=$DEV_FRONTEND_HOSTNAME"
+      ansible-docker-compose.yml
+  dependencies:
+    - build_docker_image
+  only:
+    - dev
+
+deploy_docker_container_to_test_server:
+  image: p1gmale0n/ansible:2.5-alpine3.8
+  stage: deploy
+  before_script:
+    # get DOCKERIMAGE_TAG variable value from build stage
+    - source variables
+    # dump ssh-key from GitLab CI Settings
+    - echo "${TEST_SERVER_SSH_KEY_CI}" | tr -d '\r' > /tmp/ssh_key_ci.pem
+    - chmod 600 /tmp/ssh_key_ci.pem
+  script:
+    # run ansible playbook - run backend services
+    - ansible-playbook -i ${TEST_SERVER_HOSTS}
+      --private-key /tmp/ssh_key_ci.pem
+      --extra-vars "
+      DOCKER_COMPOSE_PROJECT=ola-test
+      CI_JOB_TOKEN=$CI_JOB_TOKEN
+      CI_REGISTRY=$CI_REGISTRY
+      CI_REGISTRY_IMAGE=$CI_REGISTRY_IMAGE
+      DOCKERIMAGE_TAG=$DOCKERIMAGE_TAG
+      FRONTEND_HOSTNAME=$TEST_FRONTEND_HOSTNAME"
+      ansible-docker-compose.yml
+  dependencies:
+    - build_docker_image
+  only:
+    - master
