@@ -7,6 +7,7 @@ import ItemsList from "../components/itemsList";
 import { LIST_ALL } from '../keys/itemsKeys'
 
 export default {
+  middleware: 'auth',
   components: {
     ItemsList
   },

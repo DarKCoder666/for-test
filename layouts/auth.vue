@@ -48,19 +48,6 @@ export default {};
   min-height: 100vh;
 }
 
-.auth-page {
-
-}
-
-@media screen and (max-width: $sm) {
-  .logo {
-    width: 0% !important;
-    overflow: hidden;
-    flex-grow: 0;
-    padding: 0;
-  }
-}
-
 .logo {
   font-family: "Roboto";
   font-style: normal;

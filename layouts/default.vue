@@ -12,6 +12,9 @@
             />
             <nuxt-link to="/">UNO</nuxt-link>
           </b-col>
+          <b-col class="logIn">
+            <nuxt-link v-if="!loggedIn" to="/auth/login">Войти</nuxt-link>
+          </b-col>
           <b-col class="search-block-wrap">
             <b-input-group class="search-block">
               <b-input-group-prepend class="search-icon" v-on:click="toggleSearchState()">
@@ -37,6 +40,7 @@
 
 <script>
 import { LIST_ALL } from "../keys/itemsKeys";
+import { mapState } from "vuex";
 
 export default {
   data: () => ({
@@ -48,7 +52,10 @@ export default {
   computed: {
     showArrow() {
       return this.$route.path === "/" ? false : true;
-    }
+    },
+    ...mapState("auth", {
+      loggedIn: state => state.loggedIn
+    })
   },
 
   methods: {
@@ -74,6 +81,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.logIn {
+  color: #fff;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .arrow-left {
   color: rgba(255, 255, 255, 0.7);
   font-size: 16px;

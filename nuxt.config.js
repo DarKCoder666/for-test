@@ -77,7 +77,8 @@ export default {
   styleResources: {
     scss: [
       'assets/scss/global.scss',
-      'assets/scss/variables.scss'
+      'assets/scss/variables.scss',
+      'assets/scss/auth.scss'
     ]
   },
 
