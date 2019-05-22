@@ -17,14 +17,11 @@
       </b-col>
     </b-row>
 
-    <b-row class="item-section">
+    <b-row class="item-section" v-if="sizes.length">
       <b-col cols="12">
         <p>Размеры</p>
       </b-col>
-      <b-col class="item-size">XS</b-col>
-      <b-col class="item-size">S</b-col>
-      <b-col class="item-size">M</b-col>
-      <b-col class="item-size">L</b-col>
+      <b-col v-for="(size, index) in sizes" v-bind:key="index" class="item-size">{{size.name}}</b-col>
     </b-row>
 
     <b-row class="item-section">
@@ -38,7 +35,7 @@
 
 <script>
 export default {
-  props: ["data"]
+  props: ["data", "sizes"],
 };
 </script>
 

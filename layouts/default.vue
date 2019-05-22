@@ -10,7 +10,7 @@
               class="arrow-left"
               :icon="['fas', 'arrow-left']"
             />
-            <nuxt-link to="/">OLA</nuxt-link>
+            <nuxt-link to="/">UNO</nuxt-link>
           </b-col>
           <b-col class="search-block-wrap">
             <b-input-group class="search-block">
@@ -36,10 +36,13 @@
 </template>
 
 <script>
+import { LIST_ALL } from "../keys/itemsKeys";
+
 export default {
   data: () => ({
     mobile_search_state: false,
-    searchLine: ""
+    searchLine: "",
+    phone: null
   }),
 
   computed: {
@@ -56,7 +59,12 @@ export default {
       this.$router.push({
         path: "/"
       });
-      this.$store.dispatch("items/receiveItems", { searchLine: newVal });
+      this.$store.commit("items/resetPaginationStates");
+      this.$store.commit("items/setSearchLine", {
+        value: newVal,
+        listType: LIST_ALL
+      });
+      this.$store.dispatch("items/loadMoreItems", { listType: LIST_ALL });
     },
     goBack() {
       this.$router.back();

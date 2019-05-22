@@ -40,6 +40,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/vue-phone-number-input.js'
   ],
 
   /*
@@ -88,6 +89,7 @@ export default {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-    }
+    },
+    vendor: ['vue-phone-number-input']
   }
 }

@@ -1,6 +1,6 @@
 <template scoped>
   <div class="itemImage">
-    <b-carousel :interval="4000" indicators>
+    <b-carousel :interval="4000" indicators controls>
       <!-- Slides with image only -->
       <b-carousel-slide v-for="(img, index) in images" v-bind:key="index" v-bind:img-src="imagesPrefixUrl + img"></b-carousel-slide>
     </b-carousel>
@@ -20,6 +20,7 @@ export default {
     }
   }
 };
+
 </script>
 
 <style lang="scss" scoped>

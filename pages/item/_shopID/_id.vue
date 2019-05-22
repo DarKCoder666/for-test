@@ -5,7 +5,7 @@
         <item-images v-if="data.barcode && data.barcode.images" v-bind:images="data.barcode.images"></item-images>
       </b-col>
       <b-col class="info-wrap">
-        <item-info v-bind:data="data"></item-info>
+        <item-info v-bind:data="data" v-bind:sizes="sizes"></item-info>
       </b-col>
     </b-row>
   </b-container>
@@ -24,6 +24,19 @@ export default {
   computed: {
     data: function() {
       return this.$store.state.items.currentItem;
+    },
+    sizes: function () {
+      let result
+      try{
+        result = this.data.barcode.category.sizes || []  
+      } catch(e) {
+        result = []
+      }
+      
+      if(result[0] && result[0].name === 'Кол-во') {
+        result = []
+      }
+      return result
     }
   },
 
