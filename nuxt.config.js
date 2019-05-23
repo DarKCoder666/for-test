@@ -51,6 +51,7 @@ export default {
     'bootstrap-vue/nuxt',
     '@nuxtjs/style-resources',
     '@nuxtjs/axios',
+    'nuxt-client-init-module',
     [
       'nuxt-fontawesome', {
         imports: [

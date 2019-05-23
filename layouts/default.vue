@@ -14,6 +14,7 @@
           </b-col>
           <b-col class="logIn">
             <nuxt-link v-if="!loggedIn" to="/auth/login">Войти</nuxt-link>
+            <nuxt-link v-else to="/auth/logout">Выйти</nuxt-link>
           </b-col>
           <b-col class="search-block-wrap">
             <b-input-group class="search-block">

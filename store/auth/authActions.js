@@ -1,4 +1,4 @@
-import { readCookie } from '../../utils/cookie'
+import { readCookie, writeCookie, deleteCookie } from '../../utils/cookie'
 
 function sendCode({ commit }, { phone }) {
   const res = this.$axios({
@@ -24,7 +24,7 @@ async function confirmCode({ commit }, { code }) {
   })
 
   if(res.data.token) {
-    document.cookie = "jwt=" + res.data.token
+    writeCookie('jwt', res.data.token, 3)
     commit('changeLoggedState', true)
     this.$router.push('/')
   }
@@ -32,18 +32,22 @@ async function confirmCode({ commit }, { code }) {
 
 async function initAuth({ commit }) {
   const token = readCookie('jwt')
-  console.log(token)
   if(token && token !== "") {
     commit('changeLoggedState', true)
-    console.log(true)
   } else {
-    console.log(false)
     commit('changeLoggedState', false)
   }
+}
+
+async function logout({ commit }) {
+  deleteCookie('jwt')
+  commit('changeLoggedState', false)
+  this.$router.push('/')
 }
 
 export default {
   sendCode,
   confirmCode,
-  initAuth
+  initAuth,
+  logout
 }
