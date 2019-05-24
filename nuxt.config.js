@@ -1,5 +1,7 @@
 import pkg from './package'
 
+const API_URL = process.env.API_URL || 'https://api.dev.olalaland.store/v2'
+
 export default {
   mode: 'universal',
 
@@ -18,6 +20,10 @@ export default {
     ]
   },
 
+  env: {
+    API_URL: API_URL
+  },
+
   /*
   ** Customize the progress-bar color
   */
@@ -34,6 +40,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/vue-phone-number-input.js'
   ],
 
   /*
@@ -44,6 +51,7 @@ export default {
     'bootstrap-vue/nuxt',
     '@nuxtjs/style-resources',
     '@nuxtjs/axios',
+    'nuxt-client-init-module',
     [
       'nuxt-fontawesome', {
         imports: [
@@ -62,15 +70,16 @@ export default {
 
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'https://api.test.olalaland.store/v2',
-    // baseURL: process.env.API_URL || 'https://api.test.olalaland.store/v2',
+    // baseURL: 'https://api.test.olalaland.store/v2',
+    baseURL: API_URL,
     'Access-Control-Allow-Origin': '*',
   },
 
   styleResources: {
     scss: [
       'assets/scss/global.scss',
-      'assets/scss/variables.scss'
+      'assets/scss/variables.scss',
+      'assets/scss/auth.scss'
     ]
   },
 
@@ -82,6 +91,7 @@ export default {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-    }
+    },
+    vendor: ['vue-phone-number-input']
   }
 }

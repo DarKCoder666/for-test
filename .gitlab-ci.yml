@@ -76,7 +76,7 @@ deploy_docker_container_to_test_server:
       CI_REGISTRY=$CI_REGISTRY
       CI_REGISTRY_IMAGE=$CI_REGISTRY_IMAGE
       DOCKERIMAGE_TAG=$DOCKERIMAGE_TAG
-      API_URL=$DEV_API_URL
+      API_URL=$TEST_API_URL
       FRONTEND_HOSTNAME=$TEST_FRONTEND_HOSTNAME"
       ansible-docker-compose.yml
   dependencies:

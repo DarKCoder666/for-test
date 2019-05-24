@@ -18,43 +18,49 @@
 
     <!-- <categories-filter></categories-filter> -->
 
-    <items-list></items-list>
+    <items-list :listType="listType" :storeID="$route.params.storeID"></items-list>
   </div>
 </template>
 
 <script>
 import ItemsList from "../../components/itemsList";
 import CategoriesFilter from "../../components/categoriesFilter";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { links } from "../../settings/links";
+import { LIST_STORE } from '../../keys/itemsKeys'
+
 
 export default {
   components: {
     ItemsList,
-    CategoriesFilter
+    // CategoriesFilter
   },
 
   data: function() {
     return {
-      imagesPrefixUrl: links.imagesPrefixUrl
+      imagesPrefixUrl: links.imagesPrefixUrl,
+      listType: LIST_STORE
     };
   },
 
   computed: {
     ...mapState({
       shopInfo: state => state.items.currentShopInfo
-    })
+    }),
+    ...mapActions('items', [
+      'loadMoreItems'
+    ])
   },
 
   beforeCreate() {
-    this.$store.commit("items/resetPage");
-    this.$store.dispatch("items/receiveStoreItems", {
+    this.$store.commit("items/resetPaginationStates");
+    this.$store.dispatch("items/loadMoreItems", {
+      listType: LIST_STORE,
       storeID: this.$route.params.storeID
     });
     this.$store.dispatch("items/receiveShopInfo", {
       storeID: this.$route.params.storeID
     });
-    // this.$store.dispatch("items/resetPage");
   }
 };
 </script>

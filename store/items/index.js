@@ -3,11 +3,18 @@ import actions from './itemsActions'
 
 export const state = () => ({
   currentItems: [],
+  currentStoreItems: [],
+  
   currentItem: {},
+  isLoading: false,
+
+  currentItemsSearchParams: '',
+  currentStoreItemsSearchParams: '',
+  
   currentShopInfo: {},
-  currentPage: 1,
+  currentPage: -1,
   itemsPerPage: 9,
-  totalItems: 0,
+  canLoadMore: true
 });
 
 export {
