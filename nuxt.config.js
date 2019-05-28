@@ -4,7 +4,7 @@ import pkg from './package'
 const API_URL = process.env.API_URL || 'https://api.test.olalaland.store/v2'
 
 export default {
-  mode: 'universal',
+  mode: 'spa',
 
   /*
   ** Headers of the page
