@@ -35,7 +35,7 @@ export default {
     handleScroll(event) {
       const winOffset = window.pageYOffset || document.documentElement.scrollTop,
             clientHeight = document.documentElement.clientHeight,
-            lastCardOffset = this.$refs.lastCard ? domUtils.getCoords(this.$refs.lastCard[0].$el).top : 0;
+            lastCardOffset = this.$refs.lastCard ? domUtils.getCords(this.$refs.lastCard[0].$el).top : 0;
 
       if(winOffset + clientHeight >= lastCardOffset - 200) {
         this.$store.dispatch(

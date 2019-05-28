@@ -3,7 +3,7 @@
     <h1 class="item-title">{{data.barcode.title}}</h1>
     <b-row class="item-section">
       <b-col>
-        <p>СЕБЕСТОИМОСТЬ</p>
+        <p>Цена</p>
         <span>{{data.barcode.selling_price}} c</span>
       </b-col>
     </b-row>

@@ -1,5 +1,5 @@
 export const domUtils = {
-  getCoords(elem) { // crossbrowser version
+  getCords(elem) { // crossbrowser version
     const box = elem.getBoundingClientRect();
 
     const body = document.body;

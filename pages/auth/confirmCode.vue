@@ -7,7 +7,7 @@
     <b-col class="auth-input-code">
       <b-form-input v-model="code" maxlength="4"></b-form-input>
     </b-col>
-    <b-col class="auth-description2">Код действителен в течение 5 минут.</b-col>
+    <b-col class="auth-description2">Код действителен в течение 1 минуты.</b-col>
     <b-col class="auth-btn" @click="confirmCode()">
       <span>Продолжить</span>
     </b-col>

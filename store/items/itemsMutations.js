@@ -1,6 +1,8 @@
 import { LIST_STORE, LIST_ALL } from '../../keys/itemsKeys'
 
 function setItemsData(state, { data, listType }) {
+  if (!data.results) return
+
   if (listType === LIST_ALL) {
     state.currentItems = [
       ...state.currentItems,

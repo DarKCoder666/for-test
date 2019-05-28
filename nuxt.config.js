@@ -1,6 +1,7 @@
 import pkg from './package'
 
-const API_URL = process.env.API_URL || 'https://api.dev.olalaland.store/v2'
+// const API_URL = process.env.API_URL || 'https://api.dev.uno.kg/v2'
+const API_URL = process.env.API_URL || 'https://api.test.olalaland.store/v2'
 
 export default {
   mode: 'universal',
@@ -40,7 +41,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/vue-phone-number-input.js'
+    { src: "~/plugins/vue-phone-number-input.js", ssr: false },
+    { src: "~/plugins/vue-image-zoom.js", ssr: false }
   ],
 
   /*
@@ -91,7 +93,7 @@ export default {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-    },
-    vendor: ['vue-phone-number-input']
+    }, 
+    vendor: ['vue-phone-number-input', 'vue-product-zoomer']
   }
 }
