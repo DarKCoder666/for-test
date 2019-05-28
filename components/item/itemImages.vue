@@ -1,10 +1,6 @@
 <template scoped>
   <div class="item-image">
     <product-zoomer :base-images="getZoomerImages" :base-zoomer-options="containerOptions"></product-zoomer>
-    <br>
-    <br>
-    <br>
-    <product-zoomer :base-images="getZoomerImages" :base-zoomer-options="containerRoundOptions"></product-zoomer>
   </div>
 </template>
 
@@ -25,81 +21,21 @@ export default {
         namespace: "container-zoomer",
         move_by_click: true,
         scroll_items: 4
-      },
-      containerRoundOptions: {
-        zoomFactor: 4,
-        pane: "container-round",
-        hoverDelay: 300,
-        namespace: "inline-zoomer",
-        move_by_click: true,
-        scroll_items: 5,
-        choosed_thumb_border_color: "#bbdefb"
       }
     };
   },
 
   computed: {
     getZoomerImages() {
+      const that = this
       const images = {
-        // thumbs: [
-        //   {
-        //     id: 1,
-        //     url:
-        //       "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg"
-        //   }
-        // ],
-        thumbs: [
-          {
-            id: 1,
-            url:
-              "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg"
-          },
-          {
-            id: 2,
-            url:
-              "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg"
-          },
-          {
-            id: 3,
-            url:
-              "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg"
-          }
-        ],
-        normal_size: [
-          {
-            id: 1,
-            url:
-              "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg"
-          },
-          {
-            id: 2,
-            url:
-              "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg"
-          },
-          {
-            id: 3,
-            url:
-              "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg"
-          }
-        ],
-        large_size: [
-          {
-            id: 1,
-            url:
-              "https://j.plenio.de/images/igallery/resized/401-500/jplenio_DSC02004-430-4000-4000-100.jpg"
-          },
-          {
-            id: 2,
-            url:
-              "https://j.plenio.de/images/igallery/resized/401-500/jplenio_DSC02004-430-4000-4000-100.jpg"
-          },
-          {
-            id: 3,
-            url:
-              "https://j.plenio.de/images/igallery/resized/401-500/jplenio_DSC02004-430-4000-4000-100.jpg"
-          }
-        ]
-      };
+        normal_size: []
+      }
+
+      images.normal_size = this.images.map((img, i) => ({
+        id: i,
+        url: that.imagesPrefixUrl + img
+      }))
 
       return images;
     }
@@ -111,6 +47,31 @@ export default {
 .pane-container {
   top: 0 !important;
   left: 15px !important;
+
+  @media screen and (max-width: $md) {
+    display: none !important;
+  }
+}
+
+.thumb-list {
+  display: flex !important;
+  justify-content: space-between;
+
+  img {
+    max-height: 75px;
+    width: auto;
+  }
+
+  & + .control {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+.control-box {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
 
