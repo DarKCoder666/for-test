@@ -10,7 +10,8 @@ RUN npm run build
 RUN npm run generate
 
 FROM nginx:mainline-alpine
-COPY --from=frontend-builder /home/frontend-builder/dist /usr/share/nginx/html
+COPY --from=frontend-builder /home/frontend-builder/dist /var/www
+COPY docker/frontend.conf /etc/nginx/conf.d/default.conf
 
 ARG API_URL='http://PLACE_HOLDER_f8e7873ba7c2124fc72101d2216177c0'
 ENV PLACEHOLDER_URL ${API_URL}
