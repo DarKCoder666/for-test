@@ -1,4 +1,6 @@
-import { readCookie, writeCookie, deleteCookie } from '../../utils/cookie'
+import StorageUtil from '../../utils/storage'
+
+const storage = new StorageUtil()
 
 function sendCode({ commit }, { phone }) {
   const res = this.$axios({
@@ -24,7 +26,7 @@ async function confirmCode({ commit }, { code }) {
   })
 
   if(res.data.token) {
-    writeCookie('jwt', res.data.token, 3)
+    storage.set('jwt', res.data.token)
     commit('setToken', { token: res.data.token })
     commit('changeLoggedState', true)
     this.$router.push('/')
@@ -32,7 +34,7 @@ async function confirmCode({ commit }, { code }) {
 }
 
 async function initAuth({ commit }) {
-  const token = readCookie('jwt')
+  const token = storage.get('jwt', '')
   commit('setToken', { token })
   
   if(token && token !== "") {
@@ -43,7 +45,7 @@ async function initAuth({ commit }) {
 }
 
 async function logout({ commit }) {
-  deleteCookie('jwt')
+  storage.delete('jwt')
   commit('setToken', { token: null })
   commit('changeLoggedState', false)
   this.$router.push('/')

@@ -70,9 +70,6 @@ export default {
 
       return this.$store.state.items.currentShopInfo.address;
     }
-  },
-  mounted() {
-    console.log(this.info, 'info')
   }
 };
 </script>
