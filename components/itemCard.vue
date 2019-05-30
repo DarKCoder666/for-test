@@ -10,7 +10,6 @@
         </div>
         <div class="item-title">
           <p>{{shopName}}</p>
-          <span>{{shopAddress}}</span>
         </div>
       </div>
     </nuxt-link>
@@ -23,8 +22,11 @@
           class="item-bg"
         >
         <div class="item-info">
-          <p>{{info.barcode.title}}</p>
-          <span>{{info.barcode.selling_price}}</span>
+          <div class="item-info-inner-wrap">
+            <p>{{info.barcode.title}}</p>
+            <span>{{info.barcode.selling_price}} с</span>
+          </div>
+          <p class="item-info-description">{{info.barcode.description}}</p>
         </div>
       </div>
     </nuxt-link>
@@ -62,13 +64,6 @@ export default {
       }
 
       return this.$store.state.items.currentShopInfo.name;
-    },
-    shopAddress() {
-      if (this.info.barcode.storage && this.info.barcode.storage.shop) {
-        return this.info.barcode.storage.shop.address;
-      }
-
-      return this.$store.state.items.currentShopInfo.address;
     }
   }
 };
@@ -77,6 +72,12 @@ export default {
 <style lang="scss" scoped>
 .item {
   margin-top: 26px;
+  padding: 9px;
+  transition: all .3s ease-in-out;
+  
+  &:hover {
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .default-logo {
@@ -112,57 +113,56 @@ export default {
   flex-direction: column;
 
   p {
-    font-size: 13px;
-    line-height: 15px;
-    color: #000000;
-    margin-bottom: 0;
-  }
-
-  span {
+    font-weight: 500;
     font-size: 12px;
     line-height: 14px;
-    color: #bdbdbd;
+    color: #000000;
+    margin-bottom: 0;
   }
 }
 
 .item-body {
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  overflow: hidden;
   position: relative;
-  height: 164px;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
 
   img {
-    position: absolute;
     width: 100%;
-    height: 100%;
+    height: 200px;
     object-fit: cover;
     z-index: -1;
   }
 }
 
 .item-info {
-  background: rgba(255, 255, 255, 0.8);
   width: 100%;
-  padding: 10px;
+  padding: 10px 0;
+  color: #090909;
 
-  p {
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 19px;
+  &-inner-wrap {
     display: flex;
     align-items: center;
-    text-transform: uppercase;
-    color: #090909;
+    justify-content: space-between;
+    font-weight: normal
+  }
+
+  &-description {
+    font-size: 12px;
+    line-height: 14px;
+    color: #BDBDBD;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 16px;
+    text-transform: capitalize;
     margin: 0;
   }
 
   span {
-    font-size: 16px;
-    line-height: 19px;
-    color: #000000;
+    font-size: 13px;
+    line-height: 15px;
+    text-align: right;
   }
 }
 </style>
