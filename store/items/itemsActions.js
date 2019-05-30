@@ -4,8 +4,6 @@ async function receiveItem({ commit }, { shopID, itemID }) {
   commit('clearCurrentItem')
   const data = await this.$axios.$get(`/market/shops/${shopID}/goods/${itemID}`)
   commit('setCurrentItem', { data })
-
-  const data2 = await this.$axios.$get('/market/shops')
 }
 
 async function loadMoreItems({ commit, state }, { listType, storeID }) {
@@ -43,9 +41,9 @@ async function loadMoreItems({ commit, state }, { listType, storeID }) {
   }
 }
 
-async function receiveShopInfo({ commit, state }, { storeID }) {
+async function receiveShopInfo({ commit }, { storeID }) {
   const shopInfo = await this.$axios.$get(`/market/shops/${storeID}`);
-  commit('setShopInfo', { shopInfo });
+  commit('setShopInfo', { shopInfo })
 }
 
 async function changePage({ commit, dispatch, state }, { newPage }) {
@@ -55,10 +53,26 @@ async function changePage({ commit, dispatch, state }, { newPage }) {
   dispatch('receiveItems', { searchLine: "" });
 }
 
+async function subscribeStore({ state, rootState, commit }) {
+  const shop_id = state.currentShopInfo.id
+  const token = rootState.auth.token
+
+  await this.$axios({
+    method: 'POST',
+    url: `/market/shops/${shop_id}/subscriptions`,
+    data: {
+      user: token,
+      shop: shop_id
+    }
+  })
+
+  dispatch('receiveShopInfo', { storeID: state.currentShopInfo.id })
+}
+
 export default {
   receiveItem,
   changePage,
   receiveShopInfo,
-  loadMoreItems
+  loadMoreItems,
+  subscribeStore
 }
-

@@ -42,6 +42,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: "~/plugins/axios.js" },
     { src: "~/plugins/vue-phone-number-input.js", ssr: false },
     { src: "~/plugins/vue-image-zoom.js", ssr: false }
   ],

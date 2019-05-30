@@ -21,7 +21,10 @@
       <b-col cols="12">
         <p>Размеры</p>
       </b-col>
-      <b-col v-for="(size, index) in sizes" v-bind:key="index" class="item-size">{{size.name}}</b-col>
+      <template v-for="(size, index) in sizes">
+        <b-col v-if="size.show" v-bind:key="index" class="item-size">{{size.name}}</b-col>
+
+      </template>
     </b-row>
 
     <b-row class="item-section">

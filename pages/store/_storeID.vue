@@ -1,6 +1,6 @@
 <template scoped>
   <div>
-    <div class="header">
+    <div v-if="shopInfo" class="header">
       <b-container>
         <b-row class="header-inner-wrap">
           <div class="logo tempLogo">
@@ -16,6 +16,25 @@
       </b-container>
     </div>
 
+    <div v-if="loggedIn" class="subscribe">
+      <b-container class="subscribe-container">
+        <div v-if="shopInfo.sub" class="subscribe-text">
+          <font-awesome-icon class="arrow-left" :icon="['fas', 'heart']"/>
+          ВЫ ПОДПИСАННЫ
+        </div>
+
+        <div v-else class="subscribe-text" @click="subscribe">
+          <img src="~/assets/images/heart.svg" alt="img">
+          ПОДПИСАТЬСЯ
+        </div>
+
+        <div class="subscribe-current">
+          122
+          <font-awesome-icon class="arrow-left" :icon="['fas', 'heart']"/>
+        </div>
+      </b-container>
+    </div>
+
     <!-- <categories-filter></categories-filter> -->
 
     <items-list :listType="listType" :storeID="$route.params.storeID"></items-list>
@@ -27,12 +46,11 @@ import ItemsList from "../../components/itemsList";
 import CategoriesFilter from "../../components/categoriesFilter";
 import { mapState, mapActions } from "vuex";
 import { links } from "../../settings/links";
-import { LIST_STORE } from '../../keys/itemsKeys'
-
+import { LIST_STORE } from "../../keys/itemsKeys";
 
 export default {
   components: {
-    ItemsList,
+    ItemsList
     // CategoriesFilter
   },
 
@@ -45,11 +63,15 @@ export default {
 
   computed: {
     ...mapState({
-      shopInfo: state => state.items.currentShopInfo
-    }),
-    ...mapActions('items', [
-      'loadMoreItems'
-    ])
+      shopInfo: state => state.items.currentShopInfo,
+      loggedIn: state => state.auth.loggedIn
+    })
+  },
+
+  methods: {
+    subscribe() {
+      this.$store.dispatch("items/subscribeStore")
+    }
   },
 
   beforeCreate() {
@@ -140,6 +162,50 @@ export default {
     @media screen and (max-width: $sm) {
       font-size: 13px;
       line-height: 15px;
+    }
+  }
+}
+
+.subscribe {
+  background: #918ffe;
+  padding: 10px 0;
+
+  &-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    div {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &-text {
+    font-family: Roboto;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.11em;
+    color: #ffffff;
+
+    img {
+      margin-right: 8px;
+    }
+
+    svg {
+      margin-right: 4px;
+    }
+  }
+
+  &-current {
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.11em;
+  
+    svg {
+      margin-left: 4px;
     }
   }
 }

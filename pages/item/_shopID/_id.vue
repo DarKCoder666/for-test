@@ -31,7 +31,7 @@ export default {
     sizes: function() {
       let result;
       try {
-        result = this.data.barcode.category.sizes || [];
+        result = this.data.barcode.category.barcode_sizes || [];
       } catch (e) {
         result = [];
       }

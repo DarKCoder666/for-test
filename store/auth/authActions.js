@@ -25,6 +25,7 @@ async function confirmCode({ commit }, { code }) {
 
   if(res.data.token) {
     writeCookie('jwt', res.data.token, 3)
+    commit('setToken', { token: res.data.token })
     commit('changeLoggedState', true)
     this.$router.push('/')
   }
@@ -32,6 +33,8 @@ async function confirmCode({ commit }, { code }) {
 
 async function initAuth({ commit }) {
   const token = readCookie('jwt')
+  commit('setToken', { token })
+  
   if(token && token !== "") {
     commit('changeLoggedState', true)
   } else {
@@ -41,6 +44,7 @@ async function initAuth({ commit }) {
 
 async function logout({ commit }) {
   deleteCookie('jwt')
+  commit('setToken', { token: null })
   commit('changeLoggedState', false)
   this.$router.push('/')
 }
