@@ -20,6 +20,10 @@ function setCurrentItem(state, { data, listType }) {
   state.currentItem = data
 }
 
+function clearCurrentItem(state) {
+  state.currentItem = {}
+}
+
 function changePage(state, { newPage }) {
   state.currentPage = newPage
 }
@@ -56,6 +60,7 @@ export default {
   setItemsData,
   changePage,
   setCurrentItem,
+  clearCurrentItem,
   setShopInfo,
   resetPaginationStates,
   changeLoadingState,

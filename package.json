@@ -1,7 +1,7 @@
 {
-  "name": "ola_frontend",
+  "name": "UNO",
   "version": "1.0.0",
-  "description": "My doozie Nuxt.js project",
+  "description": "Social web shop",
   "author": "CodingClimber",
   "private": true,
   "scripts": {

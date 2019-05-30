@@ -1,8 +1,8 @@
 import pkg from './package'
 
-// const API_URL = process.env.API_URL || 'https://api.dev.uno.kg/v2'
+const API_URL = process.env.API_URL || 'https://api.dev.uno.kg/v2'
 // const API_URL = process.env.API_URL || 'https://api.test.olalaland.store/v2'
-const API_URL = 'https://api.test.olalaland.store/v2'
+// const API_URL = 'https://api.test.olalaland.store/v2'
 
 export default {
   mode: 'spa',

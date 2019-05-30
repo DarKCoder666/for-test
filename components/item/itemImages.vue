@@ -60,6 +60,7 @@ export default {
   img {
     max-height: 75px;
     width: auto;
+    margin: 0 2px;
   }
 
   & + .control {

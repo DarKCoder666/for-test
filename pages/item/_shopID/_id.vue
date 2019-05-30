@@ -1,5 +1,5 @@
 <template scoped>
-  <b-container class="item">
+  <b-container v-if="data" class="item">
     <b-row class="item-inner-wrap">
       <b-col class="images-wrap">
         <item-images 

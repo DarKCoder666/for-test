@@ -1,8 +1,11 @@
 import { LIST_STORE, LIST_ALL } from '../../keys/itemsKeys'
 
 async function receiveItem({ commit }, { shopID, itemID }) {
-  const data = await this.$axios.$get(`/market/shops/${shopID}/goods/${itemID}`);
+  commit('clearCurrentItem')
+  const data = await this.$axios.$get(`/market/shops/${shopID}/goods/${itemID}`)
   commit('setCurrentItem', { data })
+
+  const data2 = await this.$axios.$get('/market/shops')
 }
 
 async function loadMoreItems({ commit, state }, { listType, storeID }) {

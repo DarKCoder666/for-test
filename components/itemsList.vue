@@ -1,7 +1,7 @@
 <template scoped>
   <b-container>
     <b-row>
-      <b-col v-for="(item, index) in items" v-bind:key="item.id" cols="12" xs="12" sm="6" lg="4">
+      <b-col v-for="(item, index) in items" v-bind:key="index" cols="12" xs="12" sm="6" lg="4">
         <item-card v-bind:info="item" :ref="(index == items.length - 1) ? 'lastCard' : ''"></item-card>
       </b-col>
     </b-row>
