@@ -1,88 +1,101 @@
 <template scoped>
   <div>
-    <div class="header" v-bind:class="{'mobile-search-active' : mobile_search_state}">
+    <div class="header" :class="{'mobile-search-active' : mobile_search_state}">
       <b-container>
         <b-row>
           <b-col class="logo">
             <font-awesome-icon
               v-if="showArrow"
-              @click="goBack"
               class="arrow-left"
               :icon="['fas', 'arrow-left']"
+              @click="goBack"
             />
-            <nuxt-link to="/">UNO</nuxt-link>
+            <nuxt-link to="/">
+              UNO
+            </nuxt-link>
           </b-col>
           <b-col class="logIn">
-            <nuxt-link v-if="!loggedIn" to="/auth/login">Войти</nuxt-link>
-            <nuxt-link v-else to="/auth/logout">Выйти</nuxt-link>
+            <nuxt-link v-if="!loggedIn" to="/auth/login">
+              Войти
+            </nuxt-link>
+            <nuxt-link v-else to="/auth/logout">
+              Выйти
+            </nuxt-link>
           </b-col>
           <b-col class="search-block-wrap">
             <b-input-group class="search-block">
-              <b-input-group-prepend class="search-icon" v-on:click="toggleSearchState()">
-                <font-awesome-icon :icon="['fas', 'search']"/>
+              <b-input-group-prepend class="search-icon" @click="toggleSearchState()">
+                <font-awesome-icon :icon="['fas', 'search']" />
               </b-input-group-prepend>
               <b-input-group-prepend class="search-input-wrap">
                 <b-form-input
                   v-model="searchLine"
-                  @input="onSearchLineChange"
                   class="search-input"
                   placeholder="Найти товар"
-                ></b-form-input>
+                  @input="onSearchLineChange"
+                />
               </b-input-group-prepend>
             </b-input-group>
+          </b-col>
+
+          <b-col v-if="loggedIn" class="orders">
+            <nuxt-link to="/orders">
+              Мои заказы
+            </nuxt-link>
           </b-col>
         </b-row>
       </b-container>
     </div>
 
-    <nuxt/>
+    <nuxt />
   </div>
 </template>
 
 <script>
-import { LIST_ALL } from "../keys/itemsKeys";
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
+import { LIST_ALL } from '../keys/itemsKeys'
 
 export default {
   data: () => ({
     mobile_search_state: false,
-    searchLine: "",
+    searchLine: '',
     phone: null
   }),
 
   computed: {
     showArrow() {
-      return this.$route.path === "/" ? false : true;
+      return this.$route.path !== '/'
     },
-    ...mapState("auth", {
+    ...mapState('auth', {
       loggedIn: state => state.loggedIn
     })
   },
 
   methods: {
     toggleSearchState() {
-      this.mobile_search_state = !this.mobile_search_state;
+      this.mobile_search_state = !this.mobile_search_state
     },
     onSearchLineChange(newVal) {
       this.$router.push({
-        path: "/"
-      });
-      this.$store.commit("items/resetPaginationStates");
-      this.$store.commit("items/setSearchLine", {
+        path: '/'
+      })
+      this.$store.commit('items/resetPaginationStates')
+      this.$store.commit('items/setSearchLine', {
         value: newVal,
         listType: LIST_ALL
-      });
-      this.$store.dispatch("items/loadMoreItems", { listType: LIST_ALL });
+      })
+      this.$store.dispatch('items/loadMoreItems', { listType: LIST_ALL })
     },
     goBack() {
-      this.$router.back();
+      this.$router.back()
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
-.logIn {
+.logIn,
+.orders {
   color: #fff;
   text-align: right;
   display: flex;

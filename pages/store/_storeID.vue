@@ -1,26 +1,25 @@
 <template scoped>
   <div>
-    <div v-if="shopInfo" class="header">
+    <div v-if="currentShopInfo" class="header">
       <b-container>
         <b-row class="header-inner-wrap">
           <div class="logo tempLogo">
-            <img v-if="shopInfo.icon" v-bind:src="imagesPrefixUrl + shopInfo.icon" alt>
+            <img v-if="currentShopInfo.icon" :src="imagesPrefixUrl + currentShopInfo.icon" alt>
           </div>
 
           <div class="info">
-            <h1>{{shopInfo.name}}</h1>
+            <h1>{{ currentShopInfo.name }}</h1>
             <p>Официальный магазин</p>
-            <span>{{shopInfo.address}} {{shopInfo.phone}}</span>
+            <span>{{ currentShopInfo.address }} {{ currentShopInfo.phone }}</span>
           </div>
         </b-row>
       </b-container>
     </div>
 
-    <div v-if="loggedIn" class="subscribe">
+    <div class="subscribe">
       <b-container class="subscribe-container">
-        <div v-if="shopInfo.sub" class="subscribe-text">
-          <font-awesome-icon class="arrow-left" :icon="['fas', 'heart']"/>
-          ВЫ ПОДПИСАННЫ
+        <div v-if="currentShopInfo.sub" class="subscribe-text">
+          <font-awesome-icon class="arrow-left" :icon="['fas', 'heart']" />ВЫ ПОДПИСАННЫ
         </div>
 
         <div v-else class="subscribe-text" @click="subscribe">
@@ -30,61 +29,50 @@
 
         <div class="subscribe-current">
           122
-          <font-awesome-icon class="arrow-left" :icon="['fas', 'heart']"/>
+          <font-awesome-icon class="arrow-left" :icon="['fas', 'heart']" />
         </div>
       </b-container>
     </div>
 
-    <!-- <categories-filter></categories-filter> -->
-
-    <items-list :listType="listType" :storeID="$route.params.storeID"></items-list>
+    <items-list :list-type="listType" :store-i-d="$route.params.storeID" />
   </div>
 </template>
 
-<script>
-import ItemsList from "../../components/itemsList";
-import CategoriesFilter from "../../components/categoriesFilter";
-import { mapState, mapActions } from "vuex";
-import { links } from "../../settings/links";
-import { LIST_STORE } from "../../keys/itemsKeys";
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator';
+import { mapState } from 'vuex';
+import { links } from '../../settings/links';
+import { LIST_STORE } from '../../keys/itemsKeys';
+import ItemsList from '~/components/itemsList.vue';
 
-export default {
+@Component({
   components: {
     ItemsList
-    // CategoriesFilter
   },
-
-  data: function() {
-    return {
-      imagesPrefixUrl: links.imagesPrefixUrl,
-      listType: LIST_STORE
-    };
-  },
-
   computed: {
-    ...mapState({
-      shopInfo: state => state.items.currentShopInfo,
-      loggedIn: state => state.auth.loggedIn
-    })
-  },
+    ...mapState('auth', ['loggedIn']),
+    ...mapState('items', ['currentShopInfo'])
+  }
+})
+export default class StoreID extends Vue {
+  imagesPrefixUrl = links.imagesPrefixUrl;
+  listType = LIST_STORE;
 
-  methods: {
-    subscribe() {
-      this.$store.dispatch("items/subscribeStore")
-    }
-  },
+  subscribe() {
+    this.$store.dispatch('items/subscribeStore');
+  }
 
   beforeCreate() {
-    this.$store.commit("items/resetPaginationStates");
-    this.$store.dispatch("items/loadMoreItems", {
+    this.$store.commit('items/resetPaginationStates');
+    this.$store.dispatch('items/loadMoreItems', {
       listType: LIST_STORE,
       storeID: this.$route.params.storeID
     });
-    this.$store.dispatch("items/receiveShopInfo", {
+    this.$store.dispatch('items/receiveShopInfo', {
       storeID: this.$route.params.storeID
     });
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -187,6 +175,7 @@ export default {
     line-height: 14px;
     letter-spacing: 0.11em;
     color: #ffffff;
+    cursor: pointer;
 
     img {
       margin-right: 8px;
@@ -203,7 +192,7 @@ export default {
     font-size: 12px;
     line-height: 14px;
     letter-spacing: 0.11em;
-  
+
     svg {
       margin-left: 4px;
     }

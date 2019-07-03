@@ -11,9 +11,9 @@ export const domUtils = {
     const clientTop = docEl.clientTop || body.clientTop || 0;
     const clientLeft = docEl.clientLeft || body.clientLeft || 0;
 
-    const top  = box.top +  scrollTop - clientTop;
+    const top = box.top + scrollTop - clientTop;
     const left = box.left + scrollLeft - clientLeft;
 
     return { top: Math.round(top), left: Math.round(left) };
   }
-}
+};

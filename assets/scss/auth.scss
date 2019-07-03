@@ -79,6 +79,32 @@
   }
 }
 
+.auth-input-black {
+  .auth-input-phone {
+    border-bottom: 2px solid #E0E0E0 !important;
+    color: #000;
+    transition: .3s ease-in-out;
+    font-size: 18px;
+    line-height: 24px;
+    max-width: 200px;
+    
+    &:focus {
+      border-bottom: 2px solid $orange !important;
+    }
+  }
+  .dropdown {
+    border-bottom: 2px solid #E0E0E0;
+  }
+  .dropdown-arrow {
+    color: #000;
+  }
+  .country-code {
+    color: #000;
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
 .auth-input-code {
   input {
 

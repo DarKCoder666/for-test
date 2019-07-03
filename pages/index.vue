@@ -1,30 +1,25 @@
 <template>
-  <items-list :listType="listType"></items-list>
+  <items-list :list-type="listType" />
 </template>
 
-<script>
-import ItemsList from "../components/itemsList";
-import { LIST_ALL } from '../keys/itemsKeys'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator';
+import { LIST_ALL } from '../keys/itemsKeys';
+import ItemsList from '~/components/itemsList.vue';
 
-export default {
+@Component({
   components: {
     ItemsList
-  },
-
-  data: function() {
-    return {
-      listType: LIST_ALL
-    }
-  },
+  }
+})
+export default class Home extends Vue {
+  listType = LIST_ALL;
 
   beforeCreate() {
-    this.$store.commit("items/resetPaginationStates");
-    this.$store.dispatch("items/loadMoreItems", { 
-      listType: LIST_ALL,
-     });
+    this.$store.commit('items/resetPaginationStates');
+    this.$store.dispatch('items/loadMoreItems', {
+      listType: LIST_ALL
+    });
   }
-};
+}
 </script>
-
-<style>
-</style>

@@ -1,10 +1,10 @@
-import pkg from './package'
+import NuxtConfiguration from '@nuxt/config';
+import pkg from './package.json';
 
-const API_URL = process.env.API_URL || 'https://api.dev.uno.kg/v2'
-// const API_URL = process.env.API_URL || 'https://api.test.olalaland.store/v2'
-// const API_URL = 'https://api.test.olalaland.store/v2'
+const API_URL = process.env.API_URL || 'https://api.dev.uno.kg/v2';
 
-export default {
+const config: NuxtConfiguration = {
+
   mode: 'universal',
 
   /*
@@ -32,19 +32,12 @@ export default {
   loading: { color: '#fff' },
 
   /*
-  ** Global CSS
-  */
-  css: [
-
-  ],
-
-  /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: "~/plugins/axios.js" },
-    { src: "~/plugins/vue-phone-number-input.js", ssr: false },
-    { src: "~/plugins/vue-image-zoom.js", ssr: false }
+    { src: '~/plugins/axios.ts' },
+    { src: '~/plugins/vue-phone-number-input.ts', ssr: false },
+    { src: '~/plugins/vue-image-zoom.ts', ssr: false }
   ],
 
   /*
@@ -69,14 +62,20 @@ export default {
           }
         ]
       }
-    ]
+    ],
+    /**
+     * Google analytics module
+     */
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-142498073'
+    }]
   ],
 
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
     // baseURL: 'https://api.test.olalaland.store/v2',
     baseURL: API_URL,
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': '*'
   },
 
   styleResources: {
@@ -85,17 +84,7 @@ export default {
       'assets/scss/variables.scss',
       'assets/scss/auth.scss'
     ]
-  },
-
-  /*
-  ** Build configuration
-  */
-  build: {
-    /*
-    ** You can extend webpack config here
-    */
-    extend(config, ctx) {
-    }, 
-    vendor: ['vue-phone-number-input', 'vue-product-zoomer']
   }
-}
+};
+
+export default config;

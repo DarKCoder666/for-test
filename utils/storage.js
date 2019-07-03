@@ -1,11 +1,9 @@
 export default class StorageUtil {
-    constructor() {}
-
     /** localStorage, если он доступен, либо обычный объект */
-    storage
+    storage;
 
     /** sessionStorage, если он доступен, либо обычный объект */
-    sessionStorage
+    sessionStorage;
 
     /**
      * Возвращает значение из storage по ключу
@@ -15,13 +13,13 @@ export default class StorageUtil {
      * @returns значение, сохраненное в storage, или defaultValue, если null или undefined
      */
     get(key, defaultValue, session = false) {
-        const storage = this.getStorage(session)
-        try {
-            const value = JSON.parse(storage[key])
-            return value || defaultValue
-        } catch (e) {
-            return defaultValue
-        }
+      const storage = this.getStorage(session);
+      try {
+        const value = JSON.parse(storage[key]);
+        return value || defaultValue;
+      } catch (e) {
+        return defaultValue;
+      }
     }
 
     /**
@@ -33,13 +31,13 @@ export default class StorageUtil {
      *  если вывалились с ошибкой и не сохранили
      */
     set(key, value, session = false) {
-        const storage = this.getStorage(session)
-        try {
-            storage[key] = JSON.stringify(value)
-        } catch (e) {
-            return false
-        }
-        return true
+      const storage = this.getStorage(session);
+      try {
+        storage[key] = JSON.stringify(value);
+      } catch (e) {
+        return false;
+      }
+      return true;
     }
 
     /**
@@ -48,12 +46,12 @@ export default class StorageUtil {
      * @param session признак удаления из sessionStorage
      */
     delete(key, session = false) {
-        const storage = this.getStorage(session)
-        if (storage.removeItem) {
-            storage.removeItem(key)
-        } else {
-            delete storage[key]
-        }
+      const storage = this.getStorage(session);
+      if (storage.removeItem) {
+        storage.removeItem(key);
+      } else {
+        delete storage[key];
+      }
     }
 
     /**
@@ -61,6 +59,6 @@ export default class StorageUtil {
      * @param session признак работы с sessionStorage
      */
     getStorage(session) {
-        return session ? window.sessionStorage : window.localStorage
+      return session ? window.sessionStorage : window.localStorage;
     }
 }

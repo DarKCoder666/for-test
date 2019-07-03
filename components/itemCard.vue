@@ -1,80 +1,79 @@
 <template scoped>
   <div class="item">
-    <nuxt-link v-bind:to="`/store/${shopID}`">
+    <nuxt-link :to="`/store/${shopID}`">
       <div class="item-header">
-        <div class="item-logo" v-bind:class="{'default-logo': !shopLogo}">
-          <img
-            v-if="shopLogo"
-            v-bind:src="imagesPrefixUrl + shopLogo"
-          >
+        <div class="item-logo" :class="{'default-logo': !shopLogo}">
+          <img v-if="shopLogo" :src="imagesPrefixUrl + shopLogo">
         </div>
         <div class="item-title">
-          <p>{{shopName}}</p>
+          <p>{{ shopName }}</p>
         </div>
       </div>
     </nuxt-link>
 
-    <nuxt-link v-bind:to="`/item/${shopID}/${info.id}`">
+    <nuxt-link :to="`/item/${shopID}/${info.id}`">
       <div class="item-body">
         <img
           v-if="info.barcode.images[0]"
-          v-bind:src="imagesPrefixUrl + info.barcode.images[0]"
+          :src="imagesPrefixUrl + info.barcode.images[0]"
           class="item-bg"
         >
         <div class="item-info">
           <div class="item-info-inner-wrap">
-            <p>{{info.barcode.title}}</p>
-            <span>{{info.barcode.selling_price}} с</span>
+            <p>{{ info.barcode.title }}</p>
+            <span>{{ info.barcode.selling_price }} с</span>
           </div>
-          <p class="item-info-description">{{info.barcode.description}}</p>
+          <p class="item-info-description">
+            {{ info.barcode.description }}
+          </p>
         </div>
       </div>
     </nuxt-link>
   </div>
 </template>
 
-<script>
-import { links } from "../settings/links";
+<script lang="ts">
+import { Component, Vue, Prop } from 'nuxt-property-decorator';
+import { links } from '~/settings/links';
+import { ItemType } from '~/types/itemType';
 
-export default {
-  props: ["info"],
-  data: function() {
-    return {
-      imagesPrefixUrl: links.imagesPrefixUrl
-    };
-  },
-  computed: {
-    shopLogo() {
-      if (this.info.barcode.storage && this.info.barcode.storage.shop) {
-        return this.info.barcode.storage.shop.icon;
-      }
+@Component
+export default class ItemCard extends Vue {
+  @Prop()
+  info!: ItemType;
 
-      return this.$store.state.items.currentShopInfo.icon;
-    },
-    shopID() {
-      if (this.info.barcode.storage && this.info.barcode.storage.shop) {
-        return this.info.barcode.storage.shop.id;
-      }
+  imagesPrefixUrl: string | null = links.imagesPrefixUrl;
 
-      return this.$store.state.items.currentShopInfo.id;
-    },
-    shopName() {
-      if (this.info.barcode.storage && this.info.barcode.storage.shop) {
-        return this.info.barcode.storage.shop.name;
-      }
-
-      return this.$store.state.items.currentShopInfo.name;
+  get shopLogo() {
+    if (this.info.barcode.storage && this.info.barcode.storage.shop) {
+      return this.info.barcode.storage.shop.icon;
     }
+
+    return this.$store.state.items.currentShopInfo.icon;
   }
-};
+  get shopID() {
+    if (this.info.barcode.storage && this.info.barcode.storage.shop) {
+      return this.info.barcode.storage.shop.id;
+    }
+
+    return this.$store.state.items.currentShopInfo.id;
+  }
+  get shopName() {
+    if (this.info.barcode.storage && this.info.barcode.storage.shop) {
+      return this.info.barcode.storage.shop.name;
+    }
+
+    return this.$store.state.items.currentShopInfo.name;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .item {
   margin-top: 26px;
   padding: 9px;
-  transition: all .3s ease-in-out;
-  
+  transition: all 0.3s ease-in-out;
+
   &:hover {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
   }
@@ -143,13 +142,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-weight: normal
+    font-weight: normal;
   }
 
   &-description {
     font-size: 12px;
     line-height: 14px;
-    color: #BDBDBD;
+    color: #bdbdbd;
   }
 
   p {

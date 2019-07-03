@@ -1,0 +1,43 @@
+{
+  "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "window.zoomLevel": 0,
+  "files.associations": {
+      "*.js": "javascript",
+      "*.vue": "vue",
+      "*.ts": "typescript",
+  },
+  "editor.tabSize": 2,
+  "eslint.alwaysShowStatus": true,
+  "workbench.startupEditor": "welcomePage",
+  "files.eol": "\n",
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": [
+      {
+          "language": "vue",
+          "autoFix": true
+      },
+      {
+          "language": "typescript",
+          "autoFix": true
+      },
+      {
+          "language": "javascript",
+          "autoFix": true
+      },
+      {
+          "language": "javascriptreact",
+          "autoFix": true
+      }
+  ],
+  "editor.formatOnSave": false,
+  "vetur.validation.template": false,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.semi": false,
+  "[jsonc]": {
+      "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "vetur.format.defaultFormatter.js": "vscode-typescript",
+}

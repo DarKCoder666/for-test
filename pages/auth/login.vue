@@ -3,18 +3,20 @@
     <b-col class="auth-logo">
       <img src="~assets/images/auth_logo.svg" alt="LOGO">
     </b-col>
-    <b-col class="auth-description">Введите ваш номер телефона</b-col>
+    <b-col class="auth-description">
+      Введите ваш номер телефона
+    </b-col>
     <b-col class="auth-input">
       <vue-tel-input
         v-model="phone.number"
         autocomplete="off"
-        inputClasses="auth-input-phone"
-        wrapperClasses="input-tel-wrap"
+        input-classes="auth-input-phone"
+        wrapper-classes="input-tel-wrap"
         placeholder
-        :enabledCountryCode="true"
-        :disabledFormatting="true"
-        @onInput="onInput"
-      ></vue-tel-input>
+        :enabled-country-code="true"
+        :disabled-formatting="true"
+        @input="onInput"
+      />
     </b-col>
     <b-col class="auth-description2">
       На указанный номер будет отправлено СМС
@@ -26,39 +28,38 @@
   </b-row>
 </template>
 
-<script>
-import VueTelInput from "vue-tel-input";
-import "~/assets/scss/auth.scss";
+<script lang="ts">
+import '~/assets/scss/auth.scss';
+import { Component, Vue } from 'nuxt-property-decorator';
+import VueTelInput from 'vue-tel-input';
 
-export default {
-  layout: "auth",
+@Component({
+  layout: 'auth',
   components: {
     VueTelInput
-  },
-  data: function() {
-    return {
-      phone: {
-        number: "",
-        isValid: false,
-        countryCode: undefined
-      }
-    };
-  },
-  methods: {
-    onInput({ number, isValid, country }) {
-      this.phone.number = number;
-      this.phone.isValid = isValid;
-      this.phone.countryCode= country.dialCode;
-    },
-    sendCode() {
-      if(!this.phone.isValid) {
-        alert('Номер телефона не валидный! Попробуйте ещё раз.');
-        return;
-      }
-      const phoneNumber = '+' + this.phone.countryCode + this.phone.number
+  }
+})
+export default class Login extends Vue {
+  phone = {
+    number: '',
+    isValid: false,
+    countryCode: undefined
+  };
 
-      this.$store.dispatch('auth/sendCode', {phone: phoneNumber})
+  onInput(value, { number, isValid, country }) {
+    this.phone.number = number;
+    this.phone.isValid = isValid;
+    this.phone.countryCode = country.dialCode;
+  }
+
+  sendCode() {
+    if (!this.phone.isValid) {
+      alert('Номер телефона не валидный! Попробуйте ещё раз.');
+      return;
     }
+    const phoneNumber = '+' + this.phone.countryCode + this.phone.number;
+
+    this.$store.dispatch('auth/sendCode', { phone: phoneNumber });
   }
 };
 </script>

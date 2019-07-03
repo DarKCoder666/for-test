@@ -4,7 +4,9 @@
       <b-container>
         <b-row>
           <b-col class="logo">
-            <nuxt-link to="/">UNO</nuxt-link>
+            <nuxt-link to="/">
+              UNO
+            </nuxt-link>
           </b-col>
         </b-row>
       </b-container>
@@ -12,16 +14,18 @@
 
     <div class="auth-page">
       <b-container>
-        <nuxt/>
+        <nuxt />
       </b-container>
     </div>
   </div>
 </template>
 
 <script>
-import VueTelInput from "vue-tel-input";
+import { Component, Vue } from 'nuxt-property-decorator';
 
-export default {};
+@Component
+export default class AuthLayout extends Vue {
+}
 </script>
 
 <style lang="scss" scoped>
@@ -32,7 +36,7 @@ export default {};
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%; 
+  width: 100%;
   @media screen and (max-width: $sm) {
     padding: 14px 0;
   }
@@ -42,10 +46,17 @@ export default {};
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("~assets/images/auth_bg.svg");
+  background-image: url("~assets/images/auth_bg_desctop.svg");
   background-size: cover;
   background-position: center 0;
   min-height: 100vh;
+
+  @media screen and (max-width: $md) {
+    background-image: url("~assets/images/auth_bg.svg");
+  }
+  @media screen and (max-width: $xl) {
+    background-image: url("~assets/images/auth_bg_tablet.svg");
+  }
 }
 
 .logo {

@@ -1,58 +1,58 @@
-import { LIST_STORE, LIST_ALL } from '../../keys/itemsKeys'
+import { LIST_STORE, LIST_ALL } from '../../keys/itemsKeys';
 
 function setItemsData(state, { data, listType }) {
-  if (!data.results) return
+  if (!data.results) return;
 
   if (listType === LIST_ALL) {
     state.currentItems = [
       ...state.currentItems,
       ...data.results
-    ]
+    ];
   } else if (listType === LIST_STORE) {
     state.currentStoreItems = [
       ...state.currentStoreItems,
       ...data.results
-    ]
+    ];
   }
 }
 
-function setCurrentItem(state, { data, listType }) {
-  state.currentItem = data
+function setCurrentItem(state, { data }) {
+  state.currentItem = data;
 }
 
 function clearCurrentItem(state) {
-  state.currentItem = {}
+  state.currentItem = {};
 }
 
 function changePage(state, { newPage }) {
-  state.currentPage = newPage
+  state.currentPage = newPage;
 }
 
 function setShopInfo(state, { shopInfo }) {
-  state.currentShopInfo = shopInfo
+  state.currentShopInfo = shopInfo;
 }
 
 function changeLoadingState(state, { value }) {
-  state.isLoading = value
+  state.isLoading = value;
 }
 
 function changeCanLoadState(state, { value }) {
-  state.canLoadMore = value
+  state.canLoadMore = value;
 }
 
 function resetPaginationStates(state) {
-  state.canLoadMore = true
-  state.isLoading = false
-  state.currentPage = -1
-  state.currentItems = []
-  state.currentStoreItems = []
+  state.canLoadMore = true;
+  state.isLoading = false;
+  state.currentPage = -1;
+  state.currentItems = [];
+  state.currentStoreItems = [];
 }
 
 function setSearchLine(state, { value, listType }) {
   if (listType === LIST_ALL) {
-    state.currentItemsSearchParams = value
+    state.currentItemsSearchParams = value;
   } else if (listType === LIST_STORE) {
-    state.currentStoreItemsSearchParams = value
+    state.currentStoreItemsSearchParams = value;
   }
 }
 
@@ -66,4 +66,4 @@ export default {
   changeLoadingState,
   changeCanLoadState,
   setSearchLine
-}
+};

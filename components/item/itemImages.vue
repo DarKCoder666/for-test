@@ -1,45 +1,55 @@
 <template scoped>
   <div class="item-image">
-    <product-zoomer :base-images="getZoomerImages" :base-zoomer-options="containerOptions"></product-zoomer>
+    <product-zoomer :base-images="getZoomerImages" :base-zoomer-options="containerOptions" />
   </div>
 </template>
 
-<script>
-import { links } from "../../settings/links";
+<script lang="ts">
+import { Component, Vue, Prop } from 'nuxt-property-decorator';
+import { links } from '~/settings/links';
 
-export default {
-  props: ["images"],
+@Component
+export default class ItemImagesComponent extends Vue {
+  @Prop({ default: [] }) images!: string[];
 
-  data: function() {
-    return {
-      imagesPrefixUrl: links.imagesPrefixUrl,
-      isModalOpen: false,
-      containerOptions: {
-        zoomFactor: 4,
-        pane: "container",
-        hoverDelay: 300,
-        namespace: "container-zoomer",
-        move_by_click: true,
-        scroll_items: 4
-      }
+  imagesPrefixUrl: string | null = links.imagesPrefixUrl;
+  isModalOpen: boolean = false;
+  containerOptions = {
+    zoomFactor: 4,
+    pane: 'container',
+    hoverDelay: 300,
+    namespace: 'container-zoomer',
+    move_by_click: true,
+    scroll_items: 4
+  };
+
+  get getZoomerImages() {
+    const that = this;
+    const images: zoomerImages = {
+      normal_size: []
     };
-  },
 
-  computed: {
-    getZoomerImages() {
-      const that = this
-      const images = {
-        normal_size: []
-      }
-
-      images.normal_size = this.images.map((img, i) => ({
+    const transformedImages: zoomerImage[] = this.images.map(
+      (img, i): zoomerImage => ({
         id: i,
         url: that.imagesPrefixUrl + img
-      }))
+      })
+    );
 
-      return images;
-    }
+    images.normal_size = transformedImages;
+
+    return images;
   }
+}
+
+type zoomerImages = {
+  // eslint-disable-next-line camelcase
+  normal_size: zoomerImage[]
+};
+
+type zoomerImage = {
+  id: number
+  url: string
 };
 </script>
 
