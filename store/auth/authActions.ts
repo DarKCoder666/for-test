@@ -54,10 +54,10 @@ function logout(this: any, { commit }) {
   this.$router.push('/');
 }
 
-function checkAuth(this: any, { dispatch }) {
+async function checkAuth(this: any, { dispatch, commit }) {
   const token = storage.get('jwt', '');
   if (!token) return;
-  this.$axios({
+  const response = await this.$axios({
     method: 'POST',
     url: '/auth/jwt-update/',
     data: {
@@ -66,6 +66,13 @@ function checkAuth(this: any, { dispatch }) {
   }).catch(() => {
     dispatch('logout');
   });
+
+  // eslint-disable-next-line no-console
+  console.log('Response', response)
+
+  if (response.data.token) {
+    commit('setToken', { token: response.data.token });
+  }
 }
 
 export default {
